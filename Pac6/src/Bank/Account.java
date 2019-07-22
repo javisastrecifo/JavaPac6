@@ -11,11 +11,11 @@ public class Account {
 	}
 
 	public void deposit(double amount) {
-		balance += amount;
+		this.balance += amount;
 	}
 
 	public void withdrawal(double amount) {
-		balance -= amount;
+		this.balance -= amount;
 	}
 
 	public double getBalance() {
@@ -36,7 +36,7 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return owner + " balance: " + balance;
+		return this.owner + " balance: " + this.balance;
 	}
 
 }
