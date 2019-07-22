@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Accounts {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		Account account1 = new Account("Account One", 1000);
 		Account account2 = new Account("Account Two", 500);
 		Scanner reader = new Scanner(System.in);
@@ -77,15 +77,10 @@ public class Accounts {
 				printSummary(account1, account2);
 
 			} else if (comanda.contentEquals("credit")) {
-				System.out.print("Quina quantitat vols sol·licitar? ");
+				System.out.print("Quina quantitat vols solï¿½licitar? ");
 				quantitat = Double.parseDouble(reader.nextLine());
-				System.out.print("Amb quin compte bancari el vols sol·licitar? 1 o 2? ");
+				System.out.print("Amb quin compte bancari el vols solï¿½licitar? 1 o 2? ");
 				compte = Integer.parseInt(reader.nextLine());
-				Thread.sleep(1000);
-				System.out.println("Avaluant les seves dades...");
-				Thread.sleep(1000);
-				System.out.println("Avaluant les seves dades...");
-				Thread.sleep(1000);
 				if (compte == 1) {
 					personalCredit(account1, quantitat);
 				} else if (compte == 2) {
@@ -96,7 +91,7 @@ public class Accounts {
 				printSummary(account1, account2);
 
 			} else if (comanda.contentEquals("fi")) {
-				System.out.print("Gràcies per la teva visita.");
+				System.out.print("Grï¿½cies per la teva visita.");
 				break;
 			} else {
 				System.out.println("Comanda no identificada");
@@ -104,32 +99,32 @@ public class Accounts {
 		}
 	}
 
-	// transfereix un valor de un compte a un altre amb un return de //l’operació
+	// transfereix un valor de un compte a un altre amb un return de //lï¿½operaciï¿½
 	public static void transfer(Account from, Account to, double amount) {
 		from.withdrawal(amount);
 		to.deposit(amount);
 	}
 
-	// depèn del valor del compte decideix si es pot concedir un crèdit o //no a
-	// l’usuari
+	// depï¿½n del valor del compte decideix si es pot concedir un crï¿½dit o //no a
+	// lï¿½usuari
 	public static void personalCredit(Account one, double amount) {
 		if (one.getBalance() > amount * 4) {
-			System.out.println("El crèdit de " + amount + " ha estat concedit!");
+			System.out.println("El crï¿½dit de " + amount + " ha estat concedit!");
 			System.out.println("");
 			one.deposit(amount);
 
 		} else {
-			System.out.println("El crèdit de " + amount + " no pot ser concedit!");
-			System.out.println("És necessari tenir un dipòsit superior.");
+			System.out.println("El crï¿½dit de " + amount + " no pot ser concedit!");
+			System.out.println("ï¿½s necessari tenir un dipï¿½sit superior.");
 			System.out.println("");
 
 		}
 
 	}
 
-	// afegeix un mètode nou
+	// afegeix un mï¿½tode nou
 	public static void printMenu() {
-		System.out.println("CAIXER AUTOMÀTIC del BANC");
+		System.out.println("CAIXER AUTOMï¿½TIC del BANC");
 		System.out.println("Accions possibles: saldo,  diposit, retirada, transferir, credit, fi.");
 		System.out.println("Comanda: ");
 	}
