@@ -22,37 +22,82 @@ public class Operations {
 		return accountList;
 	}
 
+	// DISTRIBUIDOR
+
 	public static void actionReturn(Scanner reader, String command) {
 
-		if (command.contentEquals("saldo")) {
+		if (command.equalsIgnoreCase("saldo")) {
 			Operations.printSummary();
 
-		} else if (command.contentEquals("diposit")) {
-			askAmount(reader, "Quina quantitat vols ingressar? ");
-			askAccount(reader, "De quin compte bancari? 1, 2 o 3? ");
+		} else if (command.equalsIgnoreCase("ingres")) {
+			double amount = askAmount(reader, "Quina quantitat vols ingressar? ");
+			returnAccount(askAccount(reader, "De quin compte bancari? 1, 2 o 3? ")).deposit(amount);
+			Operations.printSummary();
 
-		} else if (command.contentEquals("retirada")) {
+		} else if (command.equalsIgnoreCase("retirada")) {
 			double amount = askAmount(reader, "Quina quantitat vols retirar? ");
 			int accountNumber = askAccount(reader, "De quin compte bancari? 1, 2 o 3? ");
 			if (enoughBalance(returnAccount(accountNumber), amount)) {
-				
+				returnAccount(accountNumber).withdrawal(amount);
 			}
+			Operations.printSummary();
 
-		} else if (command.contentEquals("transferir")) {
-			askAmount(reader, "Quina quantitat vols transferir? ");
-			askAccount(reader, "De quin compte d'origen? 1, 2 o 3? ");
+		} else if (command.equalsIgnoreCase("transferir")) {
+			double amount = askAmount(reader, "Quina quantitat vols transferir? ");
+			int origin = askAccount(reader, "De quin compte d'origen? 1, 2 o 3? ");
+			if (enoughBalance(returnAccount(origin), amount)) {
+			} else {
+				origin = askAccount(reader,
+						" De quin compte d'origen? 1, 2 o 3?");
+			}
+			int destination = askAccount(reader, "A quin compte de destí? 1, 2 o 3?");
+			transfer(returnAccount(origin), returnAccount(destination), amount);
+			Operations.printSummary();
 
-		} else if (command.contentEquals("credit")) {
-			askAmount(reader, "Quina quantitat vols sol·licitar com a crèdit? ");
-			askAccount(reader, "De quin compte d'origen? 1, 2 o 3? ");
+		} else if (command.equalsIgnoreCase("credit")) {
+			double amount = askAmount(reader, "Quina quantitat vols sol·licitar com a crèdit? ");
+			int accountNumber = askAccount(reader, "De quin compte d'origen? 1, 2 o 3? ");
+			personalCredit (returnAccount(accountNumber), amount);
+			Operations.printSummary();
 
-		} else if (command.contentEquals("fi")) {
+		} else if (command.equalsIgnoreCase("fi")) {
 			System.out.print("Gràcies per la teva visita.");
+			System.exit(0);
 
 		} else {
 			System.out.println("Comanda no identificada.");
 		}
 	}
+
+	// OPERACIONS MONETARIES
+
+	public static void transfer(Account from, Account to, double amount) {
+		from.withdrawal(amount);
+		to.deposit(amount);
+	}
+
+	public static boolean enoughBalance(Account account, double amount) {
+		if (account.getBalance() > amount) {
+			return true;
+		} else {
+			System.out.print("No hi ha suficients fons per retirar " + amount + "€.");
+			return false;
+		}
+	}
+
+	public static void personalCredit(Account account, double amount) {
+		if (account.getBalance() > amount * 4) {
+			System.out.println("El crèdit de " + amount + " ha estat concedit!");
+			System.out.println("");
+			account.deposit(amount);
+
+		} else {
+			System.out.println("El crèdit de " + amount + " no pot ser concedit!");
+			System.out.println("És necessari tenir uns fons superiors.");
+		}
+	}
+
+	// METODES DE PREGUNTES COMPTES
 
 	public static double askAmount(Scanner reader, String pregunta) {
 		double amount = 0;
@@ -69,21 +114,18 @@ public class Operations {
 	}
 
 	public static Account returnAccount(int input) {
-		int position = -1;
-		if ((input > (accountList.size() + 1)) || (input < 0)) {
+		if (input > (accountList.size()) || (input < 0)) {
 			return null;
 		} else {
-			return accountList.get(position + 1);
+			return accountList.get(input - 1);
 		}
 	}
-	
-	public static boolean enoughBalance (Account account, double amount) {
-		if (account.getBalance() > amount)
-	}
+
+	// METODES MENUS
 
 	public static void printMenu() {
 		System.out.println("CAIXER AUTOMÀTIC del BANC");
-		System.out.println("Accions possibles: saldo, diposit, retirada, transferir, credit, fi.");
+		System.out.println("Accions possibles: saldo, ingres, retirada, transferir, credit, fi.");
 		System.out.println("Comanda: ");
 	}
 
