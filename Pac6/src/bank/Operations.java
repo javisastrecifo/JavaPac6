@@ -60,14 +60,20 @@ public class Operations {
 			personalCredit (returnAccount(accountNumber), amount);
 			Operations.printSummary();
 
-		} else if (command.equalsIgnoreCase("fi")) {
-			System.out.print("Gràcies per la teva visita.");
-			System.exit(0);
-
 		} else {
 			System.out.println("Comanda no identificada.");
 		}
 	}
+	
+	public static boolean finishProgram (String command) {
+		if (command.equalsIgnoreCase("fi")) {
+			System.out.print("Gràcies per la teva visita.");
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 
 	// OPERACIONS MONETARIES
 
@@ -138,4 +144,5 @@ public class Operations {
 		System.out.println("");
 	}
 
+	
 }

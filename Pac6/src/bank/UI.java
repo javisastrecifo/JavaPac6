@@ -9,9 +9,13 @@ public class UI {
 		while (true) {
 			Operations.printMenu();
 			String command = reader.nextLine();
-			Operations.actionReturn(reader, command);
+			if (Operations.finishProgram(command)) {
+				break;
+			} else {
+				Operations.actionReturn(reader, command);
+			}
+
 		}
 	}
-	
 
 }
